@@ -1,28 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Coding</title>
+<search>
   
-  <link href="/atom.xml" rel="self"/>
   
-  <link href="http://yoursite.com/"/>
-  <updated>2016-10-14T16:30:30.763Z</updated>
-  <id>http://yoursite.com/</id>
-  
-  <author>
-    <name>Sun</name>
     
-  </author>
-  
-  <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>ejoy2d源码阅读--启动流程(1)</title>
-    <link href="http://yoursite.com/2016/10/14/ejoy2d%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B(1)/"/>
-    <id>http://yoursite.com/2016/10/14/ejoy2d源码阅读-启动流程(1)/</id>
-    <published>2016-10-14T14:10:53.000Z</published>
-    <updated>2016-10-14T16:30:30.763Z</updated>
-    
-    <content type="html"><![CDATA[<pre><code>本系列文章用于记录阅读ejoy2d的笔记，由于水平有限，有错误之处，还请不吝指正。
+    <entry>
+      <title><![CDATA[ejoy2d源码阅读--启动流程(1)]]></title>
+      <url>http://yoursite.com/2016/10/14/ejoy2d%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B(1)/</url>
+      <content type="html"><![CDATA[<pre><code>本系列文章用于记录阅读ejoy2d的笔记，由于水平有限，有错误之处，还请不吝指正。
 此篇文章首先分析ejoy2d的启动流程。
 </code></pre><a id="more"></a>
 <p>首先先找到ejoy2d的入口函数(暂时先看windows平台)main函数<br>mingw/window.c<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span></span></div><div class="line"><span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span> &#123;</div><div class="line">	register_class();</div><div class="line">	HWND wnd = create_window(WIDTH,HEIGHT);</div><div class="line">	ejoy2d_win_init(argc, argv);</div><div class="line"></div><div class="line">	ShowWindow(wnd, SW_SHOWDEFAULT);</div><div class="line">	UpdateWindow(wnd);</div><div class="line"></div><div class="line">	MSG msg;</div><div class="line">	<span class="keyword">while</span> (GetMessage(&amp;msg, <span class="literal">NULL</span>, <span class="number">0</span>, <span class="number">0</span>)) &#123;</div><div class="line">		TranslateMessage(&amp;msg);</div><div class="line">		DispatchMessage(&amp;msg);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
@@ -57,20 +41,22 @@
 </ol>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span></span></div><div class="line"><span class="title">ejoy2d_game_start</span><span class="params">(<span class="keyword">struct</span> game *G)</span> &#123;</div><div class="line">	lua_State *L = G-&gt;L;</div><div class="line">	lua_getfield(L, LUA_REGISTRYINDEX, EJOY_INIT);</div><div class="line">	lua_call(L, <span class="number">0</span>, <span class="number">0</span>);</div><div class="line">	assert(lua_gettop(L) == <span class="number">0</span>);</div><div class="line">	lua_pushcfunction(L, traceback);</div><div class="line">	lua_getfield(L,LUA_REGISTRYINDEX, EJOY_UPDATE);</div><div class="line">	lua_getfield(L,LUA_REGISTRYINDEX, EJOY_DRAWFRAME);</div><div class="line">	lua_getfield(L,LUA_REGISTRYINDEX, EJOY_MESSAGE);</div><div class="line">    lua_getfield(L,LUA_REGISTRYINDEX, EJOY_RESUME);</div><div class="line">	lua_getfield(L,LUA_REGISTRYINDEX, EJOY_PAUSE);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 ]]></content>
+    </entry>
     
-    <summary type="html">
-    
-      阅读ejoy2d源码
-    
-    </summary>
-    
-      <category term="ejoy2d" scheme="http://yoursite.com/categories/ejoy2d/"/>
-    
-    
-      <category term="ejoy2d" scheme="http://yoursite.com/tags/ejoy2d/"/>
-    
-      <category term="gameengine" scheme="http://yoursite.com/tags/gameengine/"/>
-    
-  </entry>
   
-</feed>
+  
+    
+    <entry>
+      <title><![CDATA[tags]]></title>
+      <url>http://yoursite.com/tags/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[categories]]></title>
+      <url>http://yoursite.com/categories/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+  
+</search>
