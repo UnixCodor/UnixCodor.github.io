@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>ejoy2d源码阅读(2)-启动流程深入 | Coding</title>
+
+  <!-- keywords -->
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="阅读ejoy2d源码">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ejoy2d源码阅读(2)-启动流程深入">
+<meta property="og:url" content="http://yoursite.com/2016/10/16/ejoy2d源码阅读-2-启动流程深入/index.html">
+<meta property="og:site_name" content="Coding">
+<meta property="og:description" content="阅读ejoy2d源码">
+<meta property="og:updated_time" content="2016-10-16T06:21:30.274Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ejoy2d源码阅读(2)-启动流程深入">
+<meta name="twitter:description" content="阅读ejoy2d源码">
+  
+    <link rel="alternative" href="/atom.xml" title="Coding" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+<script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+  
+<!-- Google Analytics -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-85415703-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+
+  
+      <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+<script>AV.initialize("kDVPEy8CmFESFXX6zruID7BY-gzGzoHsz", "Of2ViutwN1M9VEk6kPTRhpOQ");</script>
+<script src="/js/Counter.js"></script>
+  
+</head>
+<body>
+  <div id="container">
+    <div id="particles-js"></div>
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	
+	<link rel="stylesheet" href="/css/search.css" type="text/css">
+	<script src="/js/search.js"></script>
+	
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://oez1pyti8.bkt.clouddn.com/face.jpg" class="js-avatar show">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Sun</a></h1>
+		</hgroup>
+
+		
+		
+		<div id="site_search">
+			<input type="text" id="local-search-input" name="q" results="0" placeholder="search my blog..." class="form-control"/>
+			<div id="local-search-result"></div>
+			<p class='no-result'>No results found </p> <!-- 无匹配时显示，注意请在 CSS 中设置默认隐藏 -->
+		</div>
+		
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+		
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/ejoy2d/" style="font-size: 10px;">ejoy2d</a> <a href="/tags/gameengine/" style="font-size: 10px;">gameengine</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/winnerweb/hexo-theme-smackdown">smackdown</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">true</div>
+				</section>
+				
+			</div>
+		</div>
+		
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Sun</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://oez1pyti8.bkt.clouddn.com/face.jpg" class="js-avatar show">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Sun</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-ejoy2d源码阅读-2-启动流程深入" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/10/16/ejoy2d源码阅读-2-启动流程深入/" class="article-date">
+  	<time datetime="2016-10-16T04:22:34.000Z" itemprop="datePublished">2016-10-16</time>
+</a>
+    </div>
+  
+
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ejoy2d源码阅读(2)-启动流程深入
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ejoy2d/">ejoy2d</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gameengine/">gameengine</a></li></ul>
+	</div>
+
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/ejoy2d/">ejoy2d</a>
+	</div>
+
+
+        
+          
+<div class="counter-tag counter">
+    <span id="/2016/10/16/ejoy2d源码阅读-2-启动流程深入/" class="leancloud_visitors post-title-link"
+          style="font-size: 12px" data-flag-title="ejoy2d源码阅读(2)-启动流程深入">
+         &nbsp;
+        view
+    </span>
+</div>
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <pre><code>本系列文章用于记录阅读ejoy2d的笔记，由于水平有限，有错误之处，还请不吝指正。
+此篇文章分析ejoy2d的opengl ES的初始化流程。
+</code></pre><a id="more"></a>
+<p>上一篇文章大概的阅读了一下，从main函数到lua脚本的function注册, 这篇文章详细阅读ejoy2d的opengl初始化流程，以及ejoy2d启动之后的窗口消息流程。</p>
+<h2 id="opengl-初始化"><a href="#opengl-初始化" class="headerlink" title="opengl 初始化"></a>opengl 初始化</h2><p>首先看下面一段代码<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">ejoy2d.start</span><span class="params">(callback)</span></span></div><div class="line">	fw.EJOY2D_UPDATE = <span class="built_in">assert</span>(callback.update)</div><div class="line">	fw.EJOY2D_DRAWFRAME = <span class="built_in">assert</span>(callback.drawframe)</div><div class="line"></div><div class="line">	fw.EJOY2D_TOUCH = <span class="function"><span class="keyword">function</span><span class="params">(x,y,what,id)</span></span></div><div class="line">		<span class="keyword">return</span> callback.touch(touch[what],x,y,id)</div><div class="line">	<span class="keyword">end</span></div><div class="line">	fw.EJOY2D_GESTURE = <span class="function"><span class="keyword">function</span><span class="params">(what, x1, y1, x2, y2, state)</span></span></div><div class="line">		<span class="keyword">return</span> callback.gesture(gesture[what], x1, y1, x2, y2, state)</div><div class="line">	<span class="keyword">end</span></div><div class="line">	fw.EJOY2D_MESSAGE = <span class="built_in">assert</span>(callback.message)</div><div class="line">  	fw.EJOY2D_HANDLE_ERROR = <span class="built_in">assert</span>(callback.handle_error)</div><div class="line">  	fw.EJOY2D_RESUME = <span class="built_in">assert</span>(callback.on_resume)</div><div class="line">		fw.EJOY2D_PAUSE = <span class="built_in">assert</span>(callback.on_pause)</div><div class="line">	fw.inject()</div><div class="line"><span class="keyword">end</span></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这个lua function最后会调用fw.inject(), 看看这个fuction是做什么的.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span></span></div><div class="line"><span class="title">ejoy2d_init</span><span class="params">(lua_State *L)</span> &#123;</div><div class="line">	checkluaversion(L);</div><div class="line">	lua_pushliteral(L, OS_STRING);</div><div class="line">	lua_setglobal(L , <span class="string">"OS"</span>);</div><div class="line"></div><div class="line">	luaL_requiref(L, <span class="string">"ejoy2d.shader.c"</span>, ejoy2d_shader, <span class="number">0</span>);</div><div class="line">	luaL_requiref(L, <span class="string">"ejoy2d.framework"</span>, ejoy2d_framework, <span class="number">0</span>);</div><div class="line">	luaL_requiref(L, <span class="string">"ejoy2d.ppm"</span>, ejoy2d_ppm, <span class="number">0</span>);</div><div class="line">	luaL_requiref(L, <span class="string">"ejoy2d.spritepack.c"</span>, ejoy2d_spritepack, <span class="number">0</span>);</div><div class="line">	luaL_requiref(L, <span class="string">"ejoy2d.sprite.c"</span>, ejoy2d_sprite, <span class="number">0</span>);</div><div class="line">	luaL_requiref(L, <span class="string">"ejoy2d.renderbuffer"</span>, ejoy2d_renderbuffer, <span class="number">0</span>);</div><div class="line">	luaL_requiref(L, <span class="string">"ejoy2d.matrix.c"</span>, ejoy2d_matrix, <span class="number">0</span>);</div><div class="line">	luaL_requiref(L, <span class="string">"ejoy2d.particle.c"</span>, ejoy2d_particle, <span class="number">0</span>);</div><div class="line">	luaL_requiref(L, <span class="string">"ejoy2d.geometry.c"</span>, ejoy2d_geometry, <span class="number">0</span>);</div><div class="line"></div><div class="line">	lua_settop(L,<span class="number">0</span>);</div><div class="line"></div><div class="line">	shader_init();</div><div class="line">	label_load();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这个函数定义了ejoy2d.framework,那么去看看ejoy2d_framework这个函数<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span></span></div><div class="line"><span class="title">ejoy2d_framework</span><span class="params">(lua_State *L)</span> &#123;</div><div class="line">	luaL_Reg l[] = &#123;</div><div class="line">		&#123; <span class="string">"inject"</span>, linject &#125;,</div><div class="line">		&#123; <span class="literal">NULL</span>, <span class="literal">NULL</span> &#125;,</div><div class="line">	&#125;;</div><div class="line">	luaL_newlibtable(L, l);</div><div class="line">	lua_pushvalue(L,<span class="number">-1</span>);</div><div class="line">	luaL_setfuncs(L,l,<span class="number">1</span>);</div><div class="line">	<span class="keyword">return</span> <span class="number">1</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>原来这个函数像lua中注册了一个函数inject, 绑定的函数为linject，下面看看这个函数到底做了些什么事情。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span></span></div><div class="line"><span class="title">linject</span><span class="params">(lua_State *L)</span> &#123;</div><div class="line">	<span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">char</span> * ejoy_callback[] = &#123;</div><div class="line">		EJOY_INIT,</div><div class="line">		EJOY_UPDATE,</div><div class="line">		EJOY_DRAWFRAME,</div><div class="line">		EJOY_TOUCH,</div><div class="line">		EJOY_GESTURE,</div><div class="line">		EJOY_MESSAGE,</div><div class="line">		EJOY_HANDLE_ERROR,</div><div class="line">		EJOY_RESUME,</div><div class="line">		EJOY_PAUSE,</div><div class="line">	&#125;;</div><div class="line">	<span class="keyword">int</span> i;</div><div class="line">	<span class="keyword">for</span> (i=<span class="number">0</span>;i&lt;<span class="keyword">sizeof</span>(ejoy_callback)/<span class="keyword">sizeof</span>(ejoy_callback[<span class="number">0</span>]);i++) &#123;</div><div class="line">		lua_getfield(L, lua_upvalueindex(<span class="number">1</span>), ejoy_callback[i]);</div><div class="line">		<span class="keyword">if</span> (!lua_isfunction(L,<span class="number">-1</span>)) &#123;</div><div class="line">			<span class="keyword">return</span> luaL_error(L, <span class="string">"%s is not found"</span>, ejoy_callback[i]);</div><div class="line">		&#125;</div><div class="line">		lua_setfield(L, LUA_REGISTRYINDEX, ejoy_callback[i]);</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>原来是把ejoy2d.framework中的函数, 取出并且校验是否为function, 最后又压入lua全局表中。</p>
+<p>下面来看看ejoy2d窗口的消息函数<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> LRESULT CALLBACK</span></div><div class="line"><span class="title">WndProc</span><span class="params">(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)</span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">switch</span> (message) &#123;</div><div class="line">	<span class="keyword">case</span> WM_CREATE:</div><div class="line">		init_window(hWnd);</div><div class="line">		SetTimer(hWnd,<span class="number">0</span>,<span class="number">10</span>,<span class="literal">NULL</span>);</div><div class="line">		<span class="keyword">break</span>;</div><div class="line">	<span class="keyword">case</span> WM_PAINT: &#123;</div><div class="line">		<span class="keyword">if</span> (GetUpdateRect(hWnd, <span class="literal">NULL</span>, FALSE)) &#123;</div><div class="line">			HDC hDC = GetDC(hWnd);</div><div class="line">			update_frame(hDC);</div><div class="line">			ValidateRect(hWnd, <span class="literal">NULL</span>);</div><div class="line">			ReleaseDC(hWnd, hDC);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">case</span> WM_TIMER : &#123;</div><div class="line">		ejoy2d_win_update();</div><div class="line">		InvalidateRect(hWnd, <span class="literal">NULL</span> , FALSE);</div><div class="line">		<span class="keyword">break</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">case</span> WM_DESTROY:</div><div class="line">		PostQuitMessage(<span class="number">0</span>);</div><div class="line">		<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">	<span class="keyword">case</span> WM_LBUTTONUP: &#123;</div><div class="line">		<span class="keyword">int</span> x,y;</div><div class="line">		get_xy(lParam, &amp;x, &amp;y); </div><div class="line">		ejoy2d_win_touch(x,y,TOUCH_END);</div><div class="line">		<span class="keyword">break</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">case</span> WM_LBUTTONDOWN: &#123;</div><div class="line">		<span class="keyword">int</span> x,y;</div><div class="line">		get_xy(lParam, &amp;x, &amp;y); </div><div class="line">		ejoy2d_win_touch(x,y,TOUCH_BEGIN);</div><div class="line">		<span class="keyword">break</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">case</span> WM_MOUSEMOVE: &#123;</div><div class="line">		<span class="keyword">int</span> x,y;</div><div class="line">		get_xy(lParam, &amp;x, &amp;y); </div><div class="line">		ejoy2d_win_touch(x,y,TOUCH_MOVE);</div><div class="line">		<span class="keyword">break</span>;</div><div class="line">	&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> DefWindowProcW(hWnd, message, wParam, lParam);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="条件分支"><a href="#条件分支" class="headerlink" title="条件分支"></a>条件分支</h4><ul>
+<li><p>WM_CREATE<br>会调用<em>init_window</em>函数，此函数会在窗口创建之前做一些初始化<br>创建opengl Context等等工作</p>
+</li>
+<li><p>WM_PAINT<br>调用ejoy2d_game_drawframe 绘制游戏</p>
+</li>
+<li><p>WM_TIMER<br>这个是一个定时器, 游戏的帧循环<br>调用ejoy2d_game_update函数</p>
+</li>
+</ul>
+<p>*其他<br>其他都是处理游戏的touch事件</p>
+<p>至此，游戏的运行流程分析完毕。</p>
+<p>注:ejoy2d_game_drawframe、ejoy2d_game_update、ejoy2d_game_touch等函数都是调用了，先前在lua中注册到ejoy2d.framework、以及lua全局表中的相关函数，而这些函数是main.lua中ejoy2d.start的参数，作为回调函数。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/10/14/ejoy2d源码阅读-1-启动流程/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">ejoy2d源码阅读(1)-启动流程</div>
+      <strong class="article-nav-caption">&gt;</strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="ejoy2d源码阅读-2-启动流程深入" data-title="ejoy2d源码阅读(2)-启动流程深入" data-url="http://yoursite.com/2016/10/16/ejoy2d源码阅读-2-启动流程深入/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"unxichenxu"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2016 Sun
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/winnerweb/hexo-Yilia-Smackdown" target="_blank">Yilia(Smackdown)</a>
+        </div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="/js/main.js"></script>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
